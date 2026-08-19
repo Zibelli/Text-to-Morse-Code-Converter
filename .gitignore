@@ -28,8 +28,18 @@ htmlcov/
 # Environment and secrets
 .env
 .env.*
+.flaskenv
+instance/
 *.sqlite3
 *.db
+*.log
+*.sql
+*.dump
+*.bak
+*.key
+*.pem
+*.p12
+*.pfx
 
 # IDE and OS files
 .vscode/

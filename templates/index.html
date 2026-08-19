@@ -12,12 +12,17 @@
         </div>
         <div class="content">
             <div class="card ">
-                <form action="/convert" method="POST">
+                <form action="{{ url_for('convert_to_morse') }}" method="POST">
                     <label for="text">Enter Text:</label>
-                    <input type="text" id="text" name="text" required>
+                    <input type="text" id="text" name="text" maxlength="{{ max_text_length }}" required>
                     <button type="submit">Convert</button>
                 </form>
             </div>
+                {% if error %}
+                <div class="card" role="alert">
+                    <h2>{{ error }}</h2>
+                </div>
+                {% endif %}
                 {% if morse_code %}
                 <div class="card ">
                     <h2>Morse Code:</h2>

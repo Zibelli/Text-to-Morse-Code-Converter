@@ -1,56 +1,69 @@
 # Text‑to‑Morse‑Code Converter
 
-Python project that converts plain text into Morse code and vice‑versa.
+Small Flask web application that converts plain text into Morse code.
 
 ## Overview
 
 This small utility demonstrates how to map characters to their Morse code
-representations and back again. It is written in pure Python and can be
-run from the command line or imported as a library.
+representations and display the result in a web interface.
 
 ## Features
 
-- Convert any ASCII string to Morse code.
-- Decode Morse code back to text.
+- Convert ASCII text to Morse code.
 - Support for letters, digits, and a handful of punctuation marks.
-- Simple command‑line interface.
+- Simple web interface.
 - Unit tests included.
 
 ## Installation
 
 ```bash
-python -m pip install -r requirements.txt
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --require-hashes -r requirements.txt
 ```
 
-If you prefer to run the script directly without installing, just
-execute:
+The current dependency set requires Python 3.10 or newer.
+
+`requirements.in` contains the direct dependency. Regenerate the hashed lock
+file after reviewing dependency updates:
 
 ```bash
-python main.py
+python -m pip install pip-tools
+pip-compile --generate-hashes --strip-extras requirements.in
 ```
 
-## Usage
+## Run locally
+
+Start the local development server without debug mode:
 
 ```bash
-# Convert text to Morse
-python main.py "HELLO WORLD"
-
-# Decode Morse
-python main.py ".- .-.. .-.. --- / .-- --- .-. .-.. -.."
+python -m flask --app main run
 ```
 
-The script prints the result to stdout.
+Debug mode must only be enabled explicitly on a trusted development machine:
+
+```bash
+python -m flask --app main run --debug
+```
+
+Do not use Flask's built-in development server or debugger in production.
+Deploy the `main:app` WSGI application with an appropriate production server
+and enforce request and rate limits at the hosting layer.
 
 ## Project Structure
 
 ```
-main.py          # CLI entry point
+main.py          # Flask application and WSGI entry point
 README.md        # This file
+requirements.in  # Direct dependency declaration
+requirements.txt # Fully pinned dependency set with hashes
 static/
 	css/
 		style.css
 templates/
 	index.html
+tests/
+	test_app.py
 ```
 
 ## Contributing
@@ -59,7 +72,7 @@ Feel free to open issues or pull requests. Please run the tests before
 submitting:
 
 ```bash
-python -m unittest discover
+python -m unittest discover -s tests
 ```
 
 ## License
